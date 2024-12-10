@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Flexible Worker - Manager Profile</title>
+    <link rel="stylesheet" href="profile-settings-styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <h1>FedEx Flexible Worker - Manager Profile</h1>
+        <div class="user-icons">
+            <div class="user-icon" onclick="toggleDropdown()">👤</div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <a href="indexManager.html">Dashboard</a>
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="index.html" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="profile-container" role="main">
+        <h2>Manager Profile</h2>
+        
+        <div class="profile-sections">
+            <section class="profile-info">
+                <h3>Personal Information</h3>
+                <p><strong>Name:</strong> <span id="managerName">John Doe</span></p>
+                <p><strong>Employee ID:</strong> <span id="employeeId">FDX123456</span></p>
+                <p><strong>Email:</strong> <span id="managerEmail">john.doe@fedex.com</span></p>
+                <p><strong>Position:</strong> <span id="managerPosition">Regional Manager</span></p>
+                <p><strong>Department:</strong> <span id="managerDepartment">Flexible Workforce</span></p>
+                <p><strong>Location:</strong> <span id="managerLocation">Springfield Hub</span></p>
+                <p><strong>Years of Service:</strong> <span id="yearsOfService">5</span></p>
+                <p><strong>Last Login:</strong> <span id="lastLogin">May 15, 2024, 09:30 AM</span></p>
+                <button id="editProfileBtn" onclick="toggleEditMode()">Edit Profile</button>
+            </section>
+
+            <section class="performance-metrics">
+                <h3>Performance Metrics</h3>
+                <canvas id="performanceChart"></canvas>
+            </section>
+        </div>
+
+        <section class="team-management">
+            <h3>Team Management</h3>
+            <div id="teamMembers"></div>
+            <button onclick="addTeamMember()">Add Team Member</button>
+        </section>
+
+        <section class="recent-activities">
+            <h3>Recent Activities</h3>
+            <ul id="activityLog"></ul>
+        </section>
+    </main>
+
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Profile</h2>
+            <form id="editProfileForm">
+                <label for="editName">Name:</label>
+                <input type="text" id="editName" required>
+                
+                <label for="editEmail">Email:</label>
+                <input type="email" id="editEmail" required>
+                
+                <label for="editPosition">Position:</label>
+                <input type="text" id="editPosition" required>
+                
+                <label for="editDepartment">Department:</label>
+                <input type="text" id="editDepartment" required>
+                
+                <label for="editLocation">Location:</label>
+                <input type="text" id="editLocation" required>
+                
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>

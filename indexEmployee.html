@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Flexible Worker - Employee Dashboard</title>
+    <link rel="stylesheet" href="stylesEmployee.css">
+</head>
+<body>
+    <header class="header">
+        <h1>FedEx Flexible Worker - Employee Dashboard</h1>
+        <div class="user-icons">
+            <div class="alert-icon" onclick="toggleNotifications()">
+                🔔 <span class="count">2</span>
+            </div>
+            <div id="notification-dropdown" class="notification-dropdown">
+                <div class="notification-item">
+                    <h4>Shift Update</h4>
+                    <p>Your upcoming shift has been modified.</p>
+                </div>
+                <div class="notification-item">
+                    <h4>New Job Opportunity</h4>
+                    <p>A new job matching your skills is available.</p>
+                </div>
+            </div>
+            <div class="user-icon" onclick="toggleDropdown()">👤</div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <a href="#">Profile</a>
+                <a href="#">Settings</a>
+                <a href="#" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard">
+        <section class="main-content">
+            <div class="section card">
+                <h2>Work Opportunities Dashboard</h2>
+                <!-- Added Search Bar -->
+                <div class="filter-option">
+                    <label for="search-jobs">Search Jobs</label>
+                    <input type="text" id="search-jobs" placeholder="Search by title or keyword" onkeyup="searchJobs(this.value)">
+                </div>
+                <div id="job-list"></div>
+            </div>
+
+            <div class="section card">
+                <h2>My Claimed Opportunities</h2>
+                <div id="claimed-jobs-list"></div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="section card manager-alerts">
+                <h2>Alerts</h2>
+                <div class="alert-item alert-urgent" alert-type="shift-change">
+                    Manager changed parameters <span class="alert-count" onclick="showAlertDetails('shift-change')">1</span>
+                </div>
+                <div class="alert-item alert-warning" alert-type="work-reminder">
+                    Report-to-work reminder <span class="alert-count" onclick="showAlertDetails('work-reminder')">1</span>
+                </div>
+            </div>
+
+            <div class="section card">
+                <h2>Filters</h2>
+                <div class="filter-option">
+                    <label for="job-type">Job Type</label>
+                    <select id="job-type">
+                        <option value="both">Both</option>
+                        <option value="available">Available Jobs</option>
+                        <option value="claimed">Claimed Jobs</option>
+                    </select>
+                </div>
+                <div class="filter-option">
+                    <label for="location">Location</label>
+                    <select id="location">
+                        <option value="">All Locations</option>
+                        <option value="downtown">Downtown</option>
+                        <option value="north-station">North Station</option>
+                        <option value="east-facility">East Facility</option>
+                    </select>
+                </div>
+                <div class="filter-option">
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="filter-option">
+                    <label for="time">Time of Day</label>
+                    <select id="time">
+                        <option value="">All Times</option>
+                        <option value="morning">Morning</option>
+                        <option value="afternoon">Afternoon</option>
+                        <option value="evening">Evening</option>
+                    </select>
+                </div>
+                <button onclick="applyFilters()">Apply Filters</button>
+            </div>
+        </aside>
+    </main>
+
+    <div class="map-icon" onclick="openGoogleMaps()">🗺️</div>
+
+    <div id="alert-details-popup" class="popup">
+        <span class="popup-close" onclick="closeAlertDetails()">×</span>
+        <h2 id="alert-details-title">Alert Details</h2>
+        <div id="alert-details-content"></div>
+    </div>
+
+    <script src="scriptEmployee.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role');
+            if (role !== 'employee') {
+                alert('This is the employee dashboard. Redirecting...');
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

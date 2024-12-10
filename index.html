@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Flex Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --fedex-purple: #4D148C;
+            --fedex-orange: #FF6600;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #333333;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, var(--fedex-purple), #3A1068);
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--fedex-purple);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .login-button {
+            background-color: var(--fedex-purple);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #3A1068;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .role-toggle:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <button class="role-toggle" onclick="toggleRole()" title="Toggle Role">👤</button>
+    <div class="login-container">
+        <h1>FedEx Flex Login</h1>
+        <button class="login-button" onclick="login()">Login</button>
+    </div>
+    <script>
+        let isManager = false;
+
+        function toggleRole() {
+            isManager = !isManager;
+            alert(`Switched to ${isManager ? 'Manager' : 'Employee'} mode`);
+        }
+
+        function login() {
+            if (isManager) {
+                window.location.href = 'indexManager.html?role=manager';
+            } else {
+                window.location.href = 'indexEmployee.html?role=employee';
+            }
+        }
+    </script>
+</body>
+</html>

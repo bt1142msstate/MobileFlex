@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>FedEx Flexible Worker - Manager Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>FedEx Flexible Worker - Manager Dashboard</h1>
+        
+        <div class="user-icons">
+            <div class="alert-icon" onclick="toggleNotifications()">
+                🔔 <span class="count">2</span>
+            </div>
+            <div id="notification-dropdown" class="notification-dropdown">
+                <div class="notification-item">
+                    <h4>New Job Opportunity</h4>
+                    <p>New job opportunity posted: Package Handler</p>
+                </div>
+                <div class="notification-item">
+                    <h4>Shift Change Request</h4>
+                    <p>Shift change request from John Doe</p>
+                </div>
+            </div>
+            <div class="user-icon" onclick="toggleDropdown()">👤</div>
+            
+            <div id="dropdown-menu" class="dropdown-menu">
+                <a href="indexManager.html">Dashboard</a>
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="index.html" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Navigation Bar -->
+    <div class="mobile-nav">
+        <button onclick="showContainer('left')">Activities</button>
+        <button onclick="showContainer('center')">Jobs</button>
+        <button onclick="showContainer('right')">Alerts</button>
+    </div>
+
+    <div class="dashboard">
+        <!-- Left Column (Activities) -->
+        <div class="dashboard-left">
+            <header class="mobile-header">
+                <h2>Recent Activities</h2>
+            </header>
+            <div class="section card">
+                <div class="welcome-message">
+                    <h2>Welcome Back - Matthew</h2>
+                    <p class="current-time"></p>
+                </div>
+            
+                <h3>Recent Activities</h3>
+                <div class="activities-list">
+                    <div class="activity-item">
+                        <span class="activity-icon">✅</span>
+                        <div class="activity-content">
+                            <p class="activity-title">Job Assignment Completed</p>
+                            <p class="activity-details">Package Handler - Downtown Hub</p>
+                            <p class="activity-time">10 minutes ago</p>
+                        </div>
+                    </div>
+            
+                    <div class="activity-item">
+                        <span class="activity-icon">📝</span>
+                        <div class="activity-content">
+                            <p class="activity-title">New Job Created</p>
+                            <p class="activity-details">Sorter - East Facility</p>
+                            <p class="activity-time">1 hour ago</p>
+                        </div>
+                    </div>
+            
+                    <div class="activity-item">
+                        <span class="activity-icon">👥</span>
+                        <div class="activity-content">
+                            <p class="activity-title">Workers Assigned</p>
+                            <p class="activity-details">Driver Assistant - North Station</p>
+                            <p class="activity-time">2 hours ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Center Column (Jobs) -->
+        <div class="dashboard-center">
+            <header class="mobile-header">
+                <h2>Work Opportunities</h2>
+            </header>
+            <div class="welcome-dashboard">
+                <h2>Dashboard Overview</h2>
+                <div class="dashboard-grid">
+                    <!-- Total Jobs Card -->
+                    <div class="dashboard-card" onclick="setView('all')">
+                        <div class="card-content">
+                            <h3>Total Jobs</h3>
+                            <div id="totalJobsCount" class="card-value">8</div>
+                            <p>View All Jobs</p>
+                        </div>
+                        <div class="card-icon">📊</div>
+                    </div>
+            
+                    <!-- Assigned Workers Card -->
+                    <div class="dashboard-card" onclick="setView('claimed')">
+                        <div class="card-content">
+                            <h3>Assigned Workers</h3>
+                            <div id="assignedWorkersCount" class="card-value">23</div>
+                            <p>Currently Working</p>
+                        </div>
+                        <div class="card-icon">👥</div>
+                    </div>
+            
+                    <!-- Unpublished Jobs Card -->
+                    <div class="dashboard-card" onclick="setView('unpublished')">
+                        <div class="card-content">
+                            <h3>Unpublished Jobs</h3>
+                            <div id="unpublishedCount" class="card-value">0</div>
+                            <p>Saved Drafts</p>
+                        </div>
+                        <div class="card-icon">📝</div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="main-content" role="main">
+                <div class="section card">
+                    <h2>Work Opportunities</h2>
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="jobSearch" 
+                            placeholder="Search jobs by title, date, or location..." 
+                            class="search-input"
+                        >
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn create-btn" onclick="toggleForm()">Create Job Opportunity</button>
+                        <button class="btn edit-btn" onclick="toggleEditing()">Edit Opportunities</button>
+                    </div>
+        
+                    <!-- Unified job list will now show all jobs stacked vertically -->
+                    <div id="unified-job-list"></div>
+                    
+                    <!-- Toggle Filters on Mobile -->
+                    <button class="btn toggle-filters-btn mobile-only" onclick="toggleFilters()">Show Filters</button>
+                </div>
+                
+                <!-- Filters Section -->
+                <div class="section card filters-section hidden-on-mobile" id="filters-section">
+                    <h2>Filters</h2>
+                    
+                    <div class="filter-option">
+                        <label for="location-filter">Location:</label>
+                        <select id="location-filter" class="filter-select">
+                            <option value="">All Locations</option>
+                            <option value="Downtown">Downtown</option>
+                            <option value="North Station">North Station</option>
+                            <option value="East Facility">East Facility</option>
+                        </select>
+                    </div>
+                
+                    <div class="filter-option">
+                        <label for="date-filter-type">Date Filter:</label>
+                        <select id="date-filter-type" class="filter-select">
+                            <option value="">No Date Filter</option>
+                            <option value="specific">Specific Date</option>
+                            <option value="range">Date Range</option>
+                            <option value="month">Month</option>
+                        </select>
+                        
+                        <div id="specific-date" class="date-input" style="display:none;">
+                            <input type="date" id="date-filter" class="filter-input">
+                        </div>
+                        
+                        <div id="date-range" class="date-input" style="display:none;">
+                            <div class="date-range-group">
+                                <input type="date" id="start-date-filter" class="filter-input" placeholder="Start Date">
+                                <input type="date" id="end-date-filter" class="filter-input" placeholder="End Date">
+                            </div>
+                        </div>
+                        
+                        <div id="month-filter" class="date-input" style="display:none;">
+                            <input type="month" id="month-input" class="filter-input">
+                        </div>
+                    </div>
+                
+                    <div class="filter-option">
+                        <label for="time-filter">Time:</label>
+                        <select id="time-filter" class="filter-select">
+                            <option value="">All Times</option>
+                            <option value="morning">Morning</option>
+                            <option value="afternoon">Afternoon</option>
+                            <option value="evening">Evening</option>
+                        </select>
+                    </div>
+                
+                    <button class="btn" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column (Alerts) -->
+        <div class="dashboard-right">
+            <header class="mobile-header">
+                <h2>Manager Alerts</h2>
+            </header>
+            <div class="section card manager-alerts">
+                <h2>Manager Alerts</h2>
+                
+                <div class="alert-item alert-urgent" alert-type="unclaimed-24">
+                    <span>Unclaimed Jobs (24 hours)</span>
+                    <div class="alert-count" onclick="showAlertDetails('unclaimed-24')">2</div>
+                </div>
+            
+                <div class="alert-item alert-warning" alert-type="unclaimed-48">
+                    <span>Unclaimed Jobs (48 hours)</span>
+                    <div class="alert-count" onclick="showAlertDetails('unclaimed-48')">2</div>
+                </div>
+            
+                <div class="alert-item" alert-type="understaffed">
+                    <span>Understaffed Jobs</span>
+                    <div class="alert-count" onclick="showAlertDetails('understaffed')">3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Job Form -->
+    <div id="job-form" class="form-container hidden">
+        <h2>Create Job Opportunity</h2>
+        <div class="form-fields">
+            <div class="form-field">
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" required>
+            </div>
+            
+            <div class="form-field">
+                <label for="date">Date:</label>
+                <input type="date" id="date" required>
+            </div>
+            
+            <div class="form-field">
+                <label for="startTime">Start Time:</label>
+                <input type="time" id="startTime" required>
+            </div>
+            
+            <div class="form-field">
+                <label for="endTime">End Time:</label>
+                <input type="time" id="endTime" required>
+            </div>
+            
+            <div class="form-field">
+                <label for="totalPositions">Number of Positions:</label>
+                <input type="number" id="totalPositions" min="1" required>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button onclick="saveJob()" class="save-button">Save</button>
+            <button onclick="publishJob()" class="publish-button">Publish</button>
+            <button onclick="toggleForm()" class="btn">Cancel</button>
+        </div>
+    </div>
+    
+    <!-- Report Popup -->
+    <div id="report-popup" class="popup">
+        <span class="popup-close" onclick="closeReport()">×</span>
+        <h2>Job Report</h2>
+        <div id="report-content"></div>
+    </div>
+    
+    <!-- Alert Details Popup -->
+    <div id="alert-details-popup" class="popup">
+        <span class="popup-close" onclick="closeAlertDetails()">×</span>
+        <h2 id="alert-details-title">Alert Details</h2>
+        <div id="alert-details-content"></div>
+    </div>
+    
+    <div class="map-icon" onclick="openGoogleMaps()">
+        🗺️
+    </div>
+    
+    <script src="script.js"></script>
+    <template id="job-item-template">
+        <div class="job-item">
+            <div class="job-main-info">
+                <h3 class="job-title"></h3>
+                <p class="job-date-time"></p>
+                <p class="job-positions"></p>
+            </div>
+            <div class="job-actions"></div>
+        </div>
+    </template>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const role = urlParams.get('role');
+            if (role !== 'manager') {
+                alert('This is the manager dashboard. Redirecting...');
+                window.location.href = 'index.html';
+            }
+        });
+        
+        function showContainer(container) {
+            document.querySelector('.dashboard-left').classList.remove('active');
+            document.querySelector('.dashboard-center').classList.remove('active');
+            document.querySelector('.dashboard-right').classList.remove('active');
+            
+            if (container === 'left') {
+                document.querySelector('.dashboard-left').classList.add('active');
+            } else if (container === 'center') {
+                document.querySelector('.dashboard-center').classList.add('active');
+            } else if (container === 'right') {
+                document.querySelector('.dashboard-right').classList.add('active');
+            }
+        }
+
+        // Show the left container by default on mobile
+        if (window.innerWidth <= 768) {
+            showContainer('left');
+        }
+
+        function toggleFilters() {
+            const filtersSection = document.getElementById('filters-section');
+            const toggleBtn = document.querySelector('.toggle-filters-btn');
+            if (filtersSection.classList.contains('hidden-on-mobile')) {
+                filtersSection.classList.remove('hidden-on-mobile');
+                toggleBtn.textContent = "Hide Filters";
+            } else {
+                filtersSection.classList.add('hidden-on-mobile');
+                toggleBtn.textContent = "Show Filters";
+            }
+        }
+    </script>
+</body>
+</html>

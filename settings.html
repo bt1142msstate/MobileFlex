@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Flexible Worker - Manager Settings</title>
+    <link rel="stylesheet" href="profile-settings-styles.css">
+</head>
+<body>
+    <header class="header">
+        <h1>FedEx Flexible Worker - Manager Settings</h1>
+        <div class="user-icons">
+            <div class="user-icon" onclick="toggleDropdown()">👤</div>
+            <div id="dropdown-menu" class="dropdown-menu">
+                <a href="indexManager.html">Dashboard</a>
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <a href="index.html" onclick="logout()">Log Out</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="settings-container" role="main">
+        <h2>Account Settings</h2>
+        <form id="settingsForm" class="settings-form">
+            <div class="form-field">
+                <label for="emailNotifications">
+                    <input type="checkbox" id="emailNotifications" name="emailNotifications">
+                    Email Notifications
+                </label>
+            </div>
+            <div class="form-field">
+                <label for="emailAddress">Email Address</label>
+                <input type="email" id="emailAddress" name="emailAddress" placeholder="Enter your email address">
+            </div>
+
+            <div class="form-field">
+                <label for="smsNotifications">
+                    <input type="checkbox" id="smsNotifications" name="smsNotifications">
+                    SMS Notifications
+                </label>
+            </div>
+            <div class="form-field">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-field">
+                <label for="language">Language</label>
+                <select id="language" name="language">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="timeZone">Time Zone</label>
+                <select id="timeZone" name="timeZone">
+                    <option value="ET">Eastern Time</option>
+                    <option value="CT">Central Time</option>
+                    <option value="MT">Mountain Time</option>
+                    <option value="PT">Pacific Time</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="theme">Theme</label>
+                <select id="theme" name="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                    <option value="auto">Auto (System)</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="dashboardLayout">Default Dashboard Layout</label>
+                <select id="dashboardLayout" name="dashboardLayout">
+                    <option value="grid">Grid</option>
+                    <option value="list">List</option>
+                    <option value="compact">Compact</option>
+                </select>
+            </div>
+
+            <div class="form-field">
+                <label for="jobAlerts">Job Alerts Frequency</label>
+                <select id="jobAlerts" name="jobAlerts">
+                    <option value="realtime">Real-time</option>
+                    <option value="hourly">Hourly</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+            </div>
+
+            <button type="submit" id="saveChanges">Save Changes</button>
+        </form>
+
+        <div class="additional-settings">
+            <h3>Security Settings</h3>
+            <button id="changePasswordBtn">Change Password</button>
+            <button id="enable2FABtn">Enable Two-Factor Authentication</button>
+        </div>
+
+        <div class="data-management">
+            <h3>Data Management</h3>
+            <button id="exportDataBtn">Export My Data</button>
+            <button id="deleteAccountBtn">Delete Account</button>
+        </div>
+    </main>
+
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Change Password</h2>
+            <form id="changePasswordForm">
+                <input type="password" id="currentPassword" placeholder="Current Password" required>
+                <input type="password" id="newPassword" placeholder="New Password" required>
+                <input type="password" id="confirmPassword" placeholder="Confirm New Password" required>
+                <button type="submit">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>
