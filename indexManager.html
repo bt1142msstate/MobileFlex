@@ -42,7 +42,7 @@
         <button onclick="showContainer('right')">Alerts</button>
     </div>
 
-    <div class="dashboard">
+    <div class="dashboard" id="dashboard-container">
         <!-- Left Column (Activities) -->
         <div class="dashboard-left">
             <header class="mobile-header">
@@ -143,7 +143,6 @@
                         <button class="btn edit-btn" onclick="toggleEditing()">Edit Opportunities</button>
                     </div>
         
-                    <!-- Unified job list will now show all jobs stacked vertically -->
                     <div id="unified-job-list"></div>
                     
                     <!-- Toggle Filters on Mobile -->
@@ -307,6 +306,11 @@
             }
         });
         
+        // Show left container by default on mobile
+        if (window.innerWidth <= 768) {
+            showContainer('left');
+        }
+
         function showContainer(container) {
             document.querySelector('.dashboard-left').classList.remove('active');
             document.querySelector('.dashboard-center').classList.remove('active');
@@ -321,11 +325,6 @@
             }
         }
 
-        // Show the left container by default on mobile
-        if (window.innerWidth <= 768) {
-            showContainer('left');
-        }
-
         function toggleFilters() {
             const filtersSection = document.getElementById('filters-section');
             const toggleBtn = document.querySelector('.toggle-filters-btn');
@@ -337,6 +336,50 @@
                 toggleBtn.textContent = "Show Filters";
             }
         }
+
+        // Swipe handling
+        let startX = 0;
+        let endX = 0;
+        
+        const dashboard = document.getElementById('dashboard-container');
+
+        dashboard.addEventListener('touchstart', function(e) {
+            startX = e.changedTouches[0].pageX;
+        }, {passive:true});
+
+        dashboard.addEventListener('touchend', function(e) {
+            endX = e.changedTouches[0].pageX;
+            handleSwipe();
+        }, {passive:true});
+
+        function handleSwipe() {
+            const threshold = 50; // swipe threshold in px
+            const activeLeft = document.querySelector('.dashboard-left.active');
+            const activeCenter = document.querySelector('.dashboard-center.active');
+            const activeRight = document.querySelector('.dashboard-right.active');
+
+            // If we swiped left: endX < startX
+            if (startX - endX > threshold) {
+                // Swipe left: Move from left -> center -> right
+                if (activeLeft) {
+                    showContainer('center');
+                } else if (activeCenter) {
+                    showContainer('right');
+                } 
+                // If already on right, no further action
+            } 
+            // If we swiped right: endX > startX
+            else if (endX - startX > threshold) {
+                // Swipe right: Move from right -> center -> left
+                if (activeRight) {
+                    showContainer('center');
+                } else if (activeCenter) {
+                    showContainer('left');
+                }
+                // If already on left, no further action
+            }
+        }
+
     </script>
 </body>
 </html>
