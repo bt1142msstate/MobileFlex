@@ -111,6 +111,7 @@ body {
 .main-content .section.card {
     position: relative;
     padding: 24px;
+    max-width: 50vh;
 }
 
 .card {
