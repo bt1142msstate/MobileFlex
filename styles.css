@@ -109,7 +109,7 @@ body {
     display: none;
 }
 .main-content .section.card {
-    position: center;
+    position: absolute;
     max-width: 50vh;
 }
 
@@ -117,6 +117,7 @@ body {
     background-color: white;
     border-radius: 12px;
     padding: 24px;
+    max-width: 50vh;
     margin-bottom: 24px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border: 1px solid var(--medium-gray);
