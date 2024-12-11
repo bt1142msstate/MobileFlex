@@ -794,10 +794,10 @@ body {
 .fullscreen-menu-content .close-btn {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: 2px;
     transform: translateY(-50%);
     color: white;
-    font-size: 48px;
+    font-size: 40px;
     cursor: pointer;
 }
 
