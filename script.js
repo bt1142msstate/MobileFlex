@@ -563,14 +563,14 @@ function updateJobDisplay(jobs) {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'job-grid';
     
-    // Calculate pagination
-    const totalPages = Math.ceil(jobs.length / ITEMS_PER_PAGE);
-    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentJobs = jobs.slice(startIndex, endIndex);
+    // Previously, we used pagination logic:
+    // const totalPages = Math.ceil(jobs.length / ITEMS_PER_PAGE);
+    // const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    // const endIndex = startIndex + ITEMS_PER_PAGE;
+    // const currentJobs = jobs.slice(startIndex, endIndex);
     
-    // Add jobs to grid
-    currentJobs.forEach(job => {
+    // Now we just display all jobs:
+    jobs.forEach(job => {
         const jobCard = createJobCard(job);
         gridContainer.appendChild(jobCard);
     });
@@ -578,14 +578,11 @@ function updateJobDisplay(jobs) {
     // Add grid to container
     unifiedJobList.appendChild(gridContainer);
     
-    // Add pagination if needed
-    if (totalPages > 1) {
-        const pagination = createPagination(totalPages);
-        unifiedJobList.appendChild(pagination);
-    }
+    // Pagination removed, so we don't create or append any pagination controls here
     
     updateDashboardCounts();
 }
+
 // Function to show report
 function showReport(jobId) {
     const reportPopup = document.getElementById('report-popup');
