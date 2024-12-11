@@ -819,8 +819,8 @@ body {
     justify-content: center;
     align-items: center;
     min-width: 250px;
-    width: 80%;
-    max-width: 300px;
+    width: 10%;
+    max-width: 10vw; /* Ensures the card never exceeds half the viewport width */
     color: var(--dark-gray);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -907,12 +907,6 @@ body {
     .mobile-header {
         display: none;
     }
-}
-
-/* Limit certain elements to at most 50% of the screen width */
-.menu-card {
-    width: 80%; 
-    max-width: 30vw; /* Ensures the card never exceeds half the viewport width */
 }
 
 .form-container {

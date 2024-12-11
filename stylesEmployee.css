@@ -321,21 +321,3 @@ button:hover {
 .hidden {
     display: none;
 }
-
-/* Limit certain elements to at most 50% of the screen width */
-.menu-card {
-    width: 80%; 
-    max-width: 30vw; /* Ensures the card never exceeds half the viewport width */
-}
-
-.form-container {
-    max-width: 30vw; /* The job form won't exceed half the viewport width */
-}
-
-.popup {
-    max-width: 30vw; /* Alert details, report popups also get constrained */
-}
-
-.btn, .job-item button, .claimed-job-item button {
-    max-width: 30vw; /* Ensures buttons won't become too large */
-}
