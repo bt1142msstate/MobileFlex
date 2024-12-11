@@ -918,5 +918,5 @@ body {
 }
 
 .btn, .job-item button, .claimed-job-item button {
-    max-width: 30vw; /* Ensures buttons won't become too large */
+    max-width: 50vw; /* Ensures buttons won't become too large */
 }
