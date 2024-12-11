@@ -3,43 +3,82 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>FedEx Flexible Worker - Manager Dashboard</title>
+    <title>Manager Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="header">
-        <h1>FedEx Flexible Worker - Manager Dashboard</h1>
+        <!-- Clicking the heading shows recent activities -->
+        <h1 onclick="showContainer('left');">Manager Dashboard</h1>
         
         <div class="user-icons">
-            <div class="alert-icon" onclick="toggleNotifications()">
-                🔔 <span class="count">2</span>
-            </div>
-            <div id="notification-dropdown" class="notification-dropdown">
-                <div class="notification-item">
-                    <h4>New Job Opportunity</h4>
-                    <p>New job opportunity posted: Package Handler</p>
-                </div>
-                <div class="notification-item">
-                    <h4>Shift Change Request</h4>
-                    <p>Shift change request from John Doe</p>
-                </div>
-            </div>
-            <div class="user-icon" onclick="toggleDropdown()">👤</div>
-            
-            <div id="dropdown-menu" class="dropdown-menu">
-                <a href="indexManager.html">Dashboard</a>
-                <a href="profile.html">Profile</a>
-                <a href="settings.html">Settings</a>
-                <a href="index.html" onclick="logout()">Log Out</a>
-            </div>
+            <!-- Hamburger icon for mobile -->
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
         </div>
     </header>
     
-    <!-- Mobile Navigation Bar -->
-    <div class="mobile-nav">
-        <button onclick="showContainer('left')">Activities</button>
-        <button onclick="showContainer('center')">Jobs</button>
-        <button onclick="showContainer('right')">Alerts</button>
+    <!-- Fullscreen popup menu -->
+    <div id="fullscreen-menu">
+        <div class="fullscreen-menu-content">
+            <span class="close-btn" onclick="toggleMenu()">×</span>
+            
+            <div class="menu-items-grid">
+                <!-- Notifications with collapsible content -->
+                <div class="menu-card notifications-card collapsed">
+                    <h2 class="menu-section-title" onclick="toggleNotifications()">
+                        Notifications <span class="arrow">▼</span>
+                    </h2>
+                    <div class="notifications-content">
+                        <div class="notification-item">
+                            <h4>New Job Opportunity</h4>
+                            <p>New job opportunity posted: Package Handler</p>
+                        </div>
+                        <div class="notification-item">
+                            <h4>Shift Change Request</h4>
+                            <p>Shift change request from John Doe</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="menu-items-grid">
+                    <div class="menu-card" onclick="toggleMenu(); showContainer('left');">
+                        <div class="menu-card-title">Recent Activities</div>
+                        <div class="menu-card-subtitle">&nbsp;</div>
+                    </div>
+                    <div class="menu-card" onclick="toggleMenu(); showContainer('right');">
+                        <div class="menu-card-title">Alerts</div>
+                        <div class="menu-card-subtitle">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="menu-card" onclick="toggleMenu(); showContainer('center'); setView('all');">
+                    <div class="menu-card-title">Total Jobs</div>
+                    <div class="menu-card-subtitle">8 jobs - View All</div>
+                </div>
+
+                <div class="menu-card" onclick="toggleMenu(); showContainer('center'); setView('claimed');">
+                    <div class="menu-card-title">Assigned Workers</div>
+                    <div class="menu-card-subtitle">23 currently working</div>
+                </div>
+
+                <div class="menu-card" onclick="toggleMenu(); showContainer('center'); setView('unpublished');">
+                    <div class="menu-card-title">Unpublished Jobs</div>
+                    <div class="menu-card-subtitle">0 saved drafts</div>
+                </div>
+
+                <!-- Profile, Settings, Log Out in the hamburger menu -->
+                <div class="menu-card" onclick="toggleMenu(); window.location.href='profile.html';">
+                    <div class="menu-card-title">Profile</div>
+                </div>
+                <div class="menu-card" onclick="toggleMenu(); window.location.href='settings.html';">
+                    <div class="menu-card-title">Settings</div>
+                </div>
+                <div class="menu-card" onclick="toggleMenu(); logout();">
+                    <div class="menu-card-title">Log Out</div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="dashboard" id="dashboard-container">
@@ -91,41 +130,7 @@
             <header class="mobile-header">
                 <h2>Work Opportunities</h2>
             </header>
-            <div class="welcome-dashboard">
-                <h2>Dashboard Overview</h2>
-                <div class="dashboard-grid">
-                    <!-- Total Jobs Card -->
-                    <div class="dashboard-card" onclick="setView('all')">
-                        <div class="card-content">
-                            <h3>Total Jobs</h3>
-                            <div id="totalJobsCount" class="card-value">8</div>
-                            <p>View All Jobs</p>
-                        </div>
-                        <div class="card-icon">📊</div>
-                    </div>
-            
-                    <!-- Assigned Workers Card -->
-                    <div class="dashboard-card" onclick="setView('claimed')">
-                        <div class="card-content">
-                            <h3>Assigned Workers</h3>
-                            <div id="assignedWorkersCount" class="card-value">23</div>
-                            <p>Currently Working</p>
-                        </div>
-                        <div class="card-icon">👥</div>
-                    </div>
-            
-                    <!-- Unpublished Jobs Card -->
-                    <div class="dashboard-card" onclick="setView('unpublished')">
-                        <div class="card-content">
-                            <h3>Unpublished Jobs</h3>
-                            <div id="unpublishedCount" class="card-value">0</div>
-                            <p>Saved Drafts</p>
-                        </div>
-                        <div class="card-icon">📝</div>
-                    </div>
-                </div>
-            </div>
-        
+
             <div class="main-content" role="main">
                 <div class="section card">
                     <h2>Work Opportunities</h2>
@@ -358,28 +363,41 @@
             const activeCenter = document.querySelector('.dashboard-center.active');
             const activeRight = document.querySelector('.dashboard-right.active');
 
-            // If we swiped left: endX < startX
+            // If we swiped left
             if (startX - endX > threshold) {
-                // Swipe left: Move from left -> center -> right
                 if (activeLeft) {
                     showContainer('center');
                 } else if (activeCenter) {
                     showContainer('right');
                 } 
-                // If already on right, no further action
             } 
-            // If we swiped right: endX > startX
+            // If we swiped right
             else if (endX - startX > threshold) {
-                // Swipe right: Move from right -> center -> left
                 if (activeRight) {
                     showContainer('center');
                 } else if (activeCenter) {
                     showContainer('left');
                 }
-                // If already on left, no further action
             }
         }
 
+        // Toggle fullscreen menu
+        function toggleMenu() {
+            const menu = document.getElementById('fullscreen-menu');
+            menu.classList.toggle('show');
+        }
+
+        function logout() {
+            // Add your logout logic here
+            window.location.href = 'index.html';
+        }
+
+        function toggleNotifications() {
+            const card = document.querySelector('.notifications-card');
+            card.classList.toggle('collapsed');
+            const arrow = card.querySelector('.arrow');
+            arrow.textContent = card.classList.contains('collapsed') ? '▼' : '▲';
+        }
     </script>
 </body>
 </html>
