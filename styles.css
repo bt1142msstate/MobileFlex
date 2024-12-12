@@ -109,15 +109,14 @@ body {
     display: none;
 }
 .main-content .section.card {
-    position: absolute;
-    
+    position: relative;
+    padding: 24px;
 }
 
 .card {
     background-color: white;
     border-radius: 12px;
     padding: 24px;
-
     margin-bottom: 24px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     border: 1px solid var(--medium-gray);
@@ -820,8 +819,8 @@ body {
     justify-content: center;
     align-items: center;
     min-width: 250px;
-    width: 10%;
-    max-width: 10vw; /* Ensures the card never exceeds half the viewport width */
+    width: 80%;
+    max-width: 300px;
     color: var(--dark-gray);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -908,16 +907,4 @@ body {
     .mobile-header {
         display: none;
     }
-}
-
-.form-container {
-    max-width: 50vw; /* The job form won't exceed half the viewport width */
-}
-
-.popup {
-    max-width: 50vw; /* Alert details, report popups also get constrained */
-}
-
-.btn, .job-item button, .claimed-job-item button {
-    max-width: 50vw; /* Ensures buttons won't become too large */
 }
