@@ -13,38 +13,25 @@
             <div class="alert-icon" onclick="toggleNotifications()">
                 🔔 <span class="count">2</span>
             </div>
-            <div id="notification-dropdown" class="notification-dropdown">
-                <div class="notification-item">
-                    <h4>Shift Update</h4>
-                    <p>Your upcoming shift has been modified.</p>
-                </div>
-                <div class="notification-item">
-                    <h4>New Job Opportunity</h4>
-                    <p>A new job matching your skills is available.</p>
-                </div>
-            </div>
             <div class="user-icon" onclick="toggleDropdown()">👤</div>
-            <div id="dropdown-menu" class="dropdown-menu">
-                <a href="#">Profile</a>
-                <a href="#">Settings</a>
-                <a href="#" onclick="logout()">Log Out</a>
-            </div>
+            <!-- Map Button Replacing Settings Button -->
+            <div class="map-icon" onclick="openGoogleMaps()">🗺️</div>
         </div>
+        <!-- Filters Button for Mobile (Positioned Below Icons) -->
+        <button class="filters-button" onclick="toggleFilters()">Filters</button>
     </header>
 
     <main class="dashboard">
         <section class="main-content">
             <div class="section card">
                 <h2>Work Opportunities Dashboard</h2>
-                <!-- Added Search Bar -->
-                <div class="filter-option">
-                    <label for="search-jobs">Search Jobs</label>
-                    <input type="text" id="search-jobs" placeholder="Search by title or keyword" onkeyup="searchJobs(this.value)">
+                <div class="search-group">
+                    <input type="text" id="search-jobs-input" placeholder="Search Jobs..." oninput="searchJobs()">
                 </div>
                 <div id="job-list"></div>
             </div>
 
-            <div class="section card">
+            <div class="section card" id="claimed-opportunities-section">
                 <h2>My Claimed Opportunities</h2>
                 <div id="claimed-jobs-list"></div>
             </div>
@@ -98,24 +85,117 @@
         </aside>
     </main>
 
-    <div class="map-icon" onclick="openGoogleMaps()">🗺️</div>
+    <!-- Notification Dropdown -->
+    <div id="notification-dropdown" class="notification-dropdown">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <span class="close-btn" onclick="toggleNotifications()">×</span>
+        </div>
+        <div class="notification-item">
+            <h4>Shift Update</h4>
+            <p>Your upcoming shift has been modified.</p>
+        </div>
+        <div class="notification-item">
+            <h4>New Job Opportunity</h4>
+            <p>A new job matching your skills is available.</p>
+        </div>
+    </div>
 
+    <!-- User Dropdown Menu -->
+    <div id="dropdown-menu" class="dropdown-menu">
+        <div class="dropdown-header">
+            <h3>Menu</h3>
+            <span class="close-btn" onclick="toggleDropdown()">×</span>
+        </div>
+        <a href="#">Profile</a>
+        <a href="#" onclick="logout()">Log Out</a>
+    </div>
+
+    <!-- Filters Modal -->
+    <div id="filters-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="toggleFilters()">×</span>
+            <h2>Filters</h2>
+            <div class="filter-option">
+                <label for="job-type-modal">Job Type</label>
+                <select id="job-type-modal">
+                    <option value="both">Both</option>
+                    <option value="available">Available Jobs</option>
+                    <option value="claimed">Claimed Jobs</option>
+                </select>
+            </div>
+            <div class="filter-option">
+                <label for="location-modal">Location</label>
+                <select id="location-modal">
+                    <option value="">All Locations</option>
+                    <option value="downtown">Downtown</option>
+                    <option value="north-station">North Station</option>
+                    <option value="east-facility">East Facility</option>
+                </select>
+            </div>
+            <div class="filter-option">
+                <label for="date-modal">Date</label>
+                <input type="date" id="date-modal">
+            </div>
+            <div class="filter-option">
+                <label for="time-modal">Time of Day</label>
+                <select id="time-modal">
+                    <option value="">All Times</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                </select>
+            </div>
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+
+    <!-- Alert Details Popup -->
     <div id="alert-details-popup" class="popup">
         <span class="popup-close" onclick="closeAlertDetails()">×</span>
         <h2 id="alert-details-title">Alert Details</h2>
         <div id="alert-details-content"></div>
     </div>
 
+    <!-- Filters Modal for Desktop (Optional) -->
+    <div id="filters-desktop-modal" class="filters-modal">
+        <div class="filters-modal-content">
+            <span class="filters-modal-close" onclick="toggleFilters()">×</span>
+            <h2>Filters</h2>
+            <div class="filter-option">
+                <label for="job-type-desktop">Job Type</label>
+                <select id="job-type-desktop">
+                    <option value="both">Both</option>
+                    <option value="available">Available Jobs</option>
+                    <option value="claimed">Claimed Jobs</option>
+                </select>
+            </div>
+            <div class="filter-option">
+                <label for="location-desktop">Location</label>
+                <select id="location-desktop">
+                    <option value="">All Locations</option>
+                    <option value="downtown">Downtown</option>
+                    <option value="north-station">North Station</option>
+                    <option value="east-facility">East Facility</option>
+                </select>
+            </div>
+            <div class="filter-option">
+                <label for="date-desktop">Date</label>
+                <input type="date" id="date-desktop">
+            </div>
+            <div class="filter-option">
+                <label for="time-desktop">Time of Day</label>
+                <select id="time-desktop">
+                    <option value="">All Times</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                </select>
+            </div>
+            <button onclick="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+
     <script src="scriptEmployee.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const role = urlParams.get('role');
-            if (role !== 'employee') {
-                alert('This is the employee dashboard. Redirecting...');
-                window.location.href = 'index.html';
-            }
-        });
-    </script>
 </body>
 </html>

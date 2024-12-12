@@ -332,6 +332,9 @@ body {
     align-items: center;
     padding: 12px 0;
 }
+.toggle-filters-btn {
+    width: 100%;
+}
 .button-group {
     display: flex;
     gap: 10px;

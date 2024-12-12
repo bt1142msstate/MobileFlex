@@ -26,6 +26,7 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 .header h1 {
@@ -39,7 +40,7 @@ body {
     align-items: center;
 }
 
-.alert-icon, .user-icon {
+.alert-icon, .user-icon, .map-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -49,6 +50,11 @@ body {
     margin-left: 10px;
     font-size: 20px;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.alert-icon:hover, .user-icon:hover, .map-icon:hover {
+    transform: scale(1.1);
 }
 
 .alert-icon {
@@ -68,23 +74,85 @@ body {
     font-weight: bold;
 }
 
-.notification-dropdown {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 10px;
+.user-icon {
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
+    color: var(--fedex-purple);
+}
+
+.map-icon {
+    background-color: white;
+    color: var(--fedex-purple);
+}
+
+/* Filters Button for Mobile */
+.filters-button {
+    display: none; /* Hidden on desktop */
+    background-color: white; /* Set to white on mobile */
+    color: var(--fedex-purple); /* Text color to contrast with white */
+    border: 2px solid var(--fedex-purple);
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-top: 15px; /* Increased margin-top for better spacing */
+}
+
+.filters-button:hover {
+    background-color: var(--light-gray);
+}
+
+/* Hide settings button on desktop since it's removed */
+.dropdown-menu a.settings {
+    display: none;
+}
+
+.notification-dropdown, .dropdown-menu, .modal, .filters-modal, .filters-desktop-modal {
+    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.notification-dropdown.show, .dropdown-menu.show, .modal.show, .filters-modal.show, .filters-desktop-modal.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-dropdown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: none;
+    box-shadow: none;
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    animation: slideIn 0.3s forwards;
+}
+
+.notification-header, .dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.close-btn {
+    font-size: 24px; /* Increased font size */
+    cursor: pointer;
+    padding: 5px; /* Added padding */
+    padding-right: 40px; /* Added padding-right for easier access */
 }
 
 .notification-item {
-    padding: 10px;
+    padding: 10px 15px;
     border-bottom: 1px solid #eee;
 }
 
@@ -103,28 +171,27 @@ body {
     color: #666;
 }
 
-.user-icon {
-    background-color: white;
-    color: var(--fedex-purple);
-}
-
 .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
+    box-shadow: none;
+    border: none;
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+    animation: slideIn 0.3s forwards;
 }
 
 .dropdown-menu a {
     display: block;
-    padding: 10px 20px;
+    padding: 15px 20px;
     color: var(--fedex-purple);
     text-decoration: none;
+    font-size: 18px;
 }
 
 .dropdown-menu a:hover {
@@ -215,6 +282,20 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
+.search-group {
+    margin-bottom: 20px;
+}
+
+.search-group input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--medium-gray);
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: var(--light-gray);
+    font-size: 16px;
+}
+
 .filter-option {
     margin-bottom: 20px;
 }
@@ -269,25 +350,16 @@ button:hover {
     border-color: #FFE0B2;
 }
 
-.map-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--fedex-purple);
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+/* Hide the separate map-icon as it's now in the header */
+/* .map-icon {
+    // Removed to prevent duplication
+} */
 
 .popup {
     display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -302,6 +374,12 @@ button:hover {
     overflow-y: auto;
 }
 
+.popup.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
 .popup h2 {
     color: var(--fedex-purple);
     border-bottom: 2px solid #ccc;
@@ -313,11 +391,307 @@ button:hover {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 24px;
+    font-size: 24px; /* Increased font size */
     cursor: pointer;
+    color: var(--fedex-purple);
+    padding: 5px; /* Added padding */
+    padding-right: 40px; /* Added padding-right for easier access */
+}
+
+/* Modal Styles */
+.modal, .filters-modal, .filters-desktop-modal {
+    display: none; /* Hidden by default */
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+.modal.show, .filters-modal.show, .filters-desktop-modal.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.modal-content, .filters-modal-content, .filters-desktop-modal .filters-modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+    animation: slideIn 0.3s forwards;
+}
+
+.filters-modal-content {
+    max-width: 600px;
+}
+
+.modal-close, .filters-modal-close {
+    color: var(--fedex-purple);
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px; /* Added padding */
+}
+
+.modal-header, .dropdown-header, .notification-header, .filters-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-dropdown h3, .dropdown-menu h3 {
+    margin: 0;
+}
+
+.dropdown-menu a {
+    padding: 15px 20px;
+    font-size: 18px;
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--light-gray);
+}
+
+.filters-modal h2, .filters-desktop-modal h2 {
+    margin-top: 0;
     color: var(--fedex-purple);
 }
 
-.hidden {
-    display: none;
+.filters-modal .filter-option, .filters-desktop-modal .filter-option {
+    margin-bottom: 15px;
+}
+
+.filters-modal button, .filters-desktop-modal button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* Slide-In Animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* Mobile Adjustment */
+
+@media (max-width: 768px) {
+    /* Header adjustments for mobile */
+    .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .user-icons {
+        margin-top: 10px;
+    }
+
+    /* Show Filters Button on Mobile */
+    .filters-button {
+        display: block;
+        background-color: white; /* Set to white */
+        color: var(--fedex-purple); /* Text color to contrast with white */
+        border: 2px solid var(--fedex-purple);
+        margin-top: 15px; /* Position below icons */
+        padding: 12px 24px; /* Increased padding for better touch targets */
+        font-size: 16px; /* Increased font size */
+    }
+
+    .filters-button:hover {
+        background-color: var(--light-gray);
+    }
+
+    /* Main dashboard layout for mobile */
+    .dashboard {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .card {
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    /* Hide sidebar on mobile */
+    .sidebar {
+        display: none;
+    }
+
+    /* Notification dropdown adjustments */
+    .notification-dropdown {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        padding: 20px;
+        animation: slideIn 0.3s forwards;
+    }
+
+    /* Dropdown menu adjustments */
+    .dropdown-menu {
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        padding: 20px;
+        animation: slideIn 0.3s forwards;
+    }
+
+    /* Button adjustments for smaller screens */
+    button {
+        width: 100%;
+        padding: 14px 0; /* Increased padding for touch friendliness */
+        font-size: 18px; /* Increased font size */
+    }
+
+    /* Job item adjustments for mobile */
+    .job-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .job-item button {
+        margin-top: 10px;
+        width: 100%; /* Full-width buttons for easier tapping */
+        padding: 12px 0; /* Increased padding */
+        font-size: 16px;
+    }
+
+    /* Alerts and filter options adjustments for better mobile experience */
+    .filter-option label, .manager-alerts .alert-item {
+        font-size: 14px;
+    }
+
+    /* Remove the separate map-icon as it's now in the header */
+
+    /* Popup adjustments for mobile */
+    .popup {
+        width: 100%; /* Full-width for mobile */
+        max-width: none; /* Remove max-width */
+        max-height: 90%; /* Increase max-height */
+        padding: 20px;
+        border-radius: 0; /* Remove border-radius for full-screen look */
+    }
+
+    /* Center the "Work Opportunities Dashboard" title */
+    .card h2 {
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Modal adjustments for mobile */
+    .modal-content, .filters-modal-content, .filters-desktop-modal .filters-modal-content {
+        margin: 5% auto; /* Reduced top margin */
+        height: 90%; /* Increase height for better visibility */
+        overflow-y: auto; /* Enable scrolling if content overflows */
+    }
+
+    /* Make the "Apply Filters" button sticky at the bottom */
+    .filters-modal-content, .filters-desktop-modal .filters-modal-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filters-modal-content .filter-option, .filters-desktop-modal .filter-option {
+        flex: 1;
+    }
+
+    .filters-modal-content button, .filters-desktop-modal button {
+        position: sticky;
+        bottom: 0;
+        background-color: var(--fedex-purple);
+        color: white;
+        border: none;
+        padding: 14px 0;
+        border-radius: 0;
+        font-size: 18px;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .header h1 {
+        font-size: 20px;
+    }
+
+    .alert-icon, .user-icon, .map-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+    }
+
+    .alert-icon .count {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
+
+    /* Further reduce the size of job items for small devices */
+    .job-item {
+        padding: 12px;
+    }
+
+    .job-item h3 {
+        font-size: 16px;
+    }
+
+    .job-item p {
+        font-size: 12px;
+    }
+
+    /* Adjust the alert items for mobile */
+    .manager-alerts .alert-item {
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    /* Show only icons without text for mobile headers */
+    .filters-button {
+        font-size: 16px;
+        padding: 14px 24px;
+    }
+
+    /* Adjust modal content for very small screens */
+    .modal-content, .filters-modal-content, .filters-desktop-modal .filters-modal-content {
+        width: 100%;
+        margin: 5% auto;
+    }
 }

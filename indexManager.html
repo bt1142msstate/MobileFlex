@@ -124,12 +124,72 @@
                 </div>
             </div>
         </div>
+
+        
         
         <!-- Center Column (Jobs) -->
         <div class="dashboard-center">
             <header class="mobile-header">
                 <h2>Work Opportunities</h2>
+                <!-- Toggle Filters on Mobile -->
+                
             </header>
+
+            <div class="button-group">
+                <button class="btn toggle-filters-btn mobile-only" onclick="toggleFilters()">Show Filters</button>
+            </div>
+
+            <!-- Filters Section -->
+        <div class="section card filters-section hidden-on-mobile" id="filters-section">
+            <h2>Filters</h2>
+            
+            <div class="filter-option">
+                <label for="location-filter">Location:</label>
+                <select id="location-filter" class="filter-select">
+                    <option value="">All Locations</option>
+                    <option value="Downtown">Downtown</option>
+                    <option value="North Station">North Station</option>
+                    <option value="East Facility">East Facility</option>
+                </select>
+            </div>
+        
+            <div class="filter-option">
+                <label for="date-filter-type">Date Filter:</label>
+                <select id="date-filter-type" class="filter-select">
+                    <option value="">No Date Filter</option>
+                    <option value="specific">Specific Date</option>
+                    <option value="range">Date Range</option>
+                    <option value="month">Month</option>
+                </select>
+                
+                <div id="specific-date" class="date-input" style="display:none;">
+                    <input type="date" id="date-filter" class="filter-input">
+                </div>
+                
+                <div id="date-range" class="date-input" style="display:none;">
+                    <div class="date-range-group">
+                        <input type="date" id="start-date-filter" class="filter-input" placeholder="Start Date">
+                        <input type="date" id="end-date-filter" class="filter-input" placeholder="End Date">
+                    </div>
+                </div>
+                
+                <div id="month-filter" class="date-input" style="display:none;">
+                    <input type="month" id="month-input" class="filter-input">
+                </div>
+            </div>
+        
+            <div class="filter-option">
+                <label for="time-filter">Time:</label>
+                <select id="time-filter" class="filter-select">
+                    <option value="">All Times</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                </select>
+            </div>
+        
+            <button class="btn" onclick="applyFilters()">Apply Filters</button>
+        </div>
 
             <div class="main-content" role="main">
                 <div class="section card">
@@ -143,6 +203,7 @@
                         >
                     </div>
                     
+                    
                     <div class="button-group">
                         <button class="btn create-btn" onclick="toggleForm()">Create Job Opportunity</button>
                         <button class="btn edit-btn" onclick="toggleEditing()">Edit Opportunities</button>
@@ -150,61 +211,10 @@
         
                     <div id="unified-job-list"></div>
                     
-                    <!-- Toggle Filters on Mobile -->
-                    <button class="btn toggle-filters-btn mobile-only" onclick="toggleFilters()">Show Filters</button>
-                </div>
-                
-                <!-- Filters Section -->
-                <div class="section card filters-section hidden-on-mobile" id="filters-section">
-                    <h2>Filters</h2>
                     
-                    <div class="filter-option">
-                        <label for="location-filter">Location:</label>
-                        <select id="location-filter" class="filter-select">
-                            <option value="">All Locations</option>
-                            <option value="Downtown">Downtown</option>
-                            <option value="North Station">North Station</option>
-                            <option value="East Facility">East Facility</option>
-                        </select>
-                    </div>
-                
-                    <div class="filter-option">
-                        <label for="date-filter-type">Date Filter:</label>
-                        <select id="date-filter-type" class="filter-select">
-                            <option value="">No Date Filter</option>
-                            <option value="specific">Specific Date</option>
-                            <option value="range">Date Range</option>
-                            <option value="month">Month</option>
-                        </select>
-                        
-                        <div id="specific-date" class="date-input" style="display:none;">
-                            <input type="date" id="date-filter" class="filter-input">
-                        </div>
-                        
-                        <div id="date-range" class="date-input" style="display:none;">
-                            <div class="date-range-group">
-                                <input type="date" id="start-date-filter" class="filter-input" placeholder="Start Date">
-                                <input type="date" id="end-date-filter" class="filter-input" placeholder="End Date">
-                            </div>
-                        </div>
-                        
-                        <div id="month-filter" class="date-input" style="display:none;">
-                            <input type="month" id="month-input" class="filter-input">
-                        </div>
-                    </div>
-                
-                    <div class="filter-option">
-                        <label for="time-filter">Time:</label>
-                        <select id="time-filter" class="filter-select">
-                            <option value="">All Times</option>
-                            <option value="morning">Morning</option>
-                            <option value="afternoon">Afternoon</option>
-                            <option value="evening">Evening</option>
-                        </select>
-                    </div>
-                
-                    <button class="btn" onclick="applyFilters()">Apply Filters</button>
                 </div>
+                
+                
             </div>
         </div>
         
